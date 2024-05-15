@@ -1,5 +1,5 @@
 import './style.css';
-import { getPostcardUrl } from "firebase.storage.js";
+import { getPostcardUrl } from "./firebase.storage.js";
 import { getRandomRotation, getRandomBetween } from "./utils";
 import { getAllPostcards, getPostcardPosition, setPostcardPosition } from "./firebase";
 
