@@ -16,8 +16,8 @@ async function displayPostcards() {
         // If no position saved, generate and save one
         if (!position) {
           position = {
-            x: getRandomBetween(0, window.innerWidth - 273),
-            y: getRandomBetween(0, window.innerHeight - 168)
+            x: getRandomBetween(0, window.innerWidth - 170),
+            y: getRandomBetween(0, window.innerHeight - 105)
           };
           await setPostcardPosition(postcardId, position.x, position.y);
         }
@@ -25,8 +25,8 @@ async function displayPostcards() {
         const imgElement = document.createElement('img');
         imgElement.src = imageUrl;
         imgElement.style.position = 'absolute';
-        imgElement.style.width = "273px";
-        imgElement.style.height = "168px";
+        imgElement.style.width = "170px";
+        imgElement.style.height = "105px";
         imgElement.style.left = `${position.x}px`;
         imgElement.style.top = `${position.y}px`;
         imgElement.style.transform = `rotate(${getRandomRotation()}deg)`;
