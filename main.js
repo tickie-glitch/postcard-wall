@@ -1,9 +1,15 @@
 import './style.css';
 import { getPostcardUrl } from "./firebase.storage.js";
 import { getRandomRotation, getRandomBetween } from "./utils";
-import { getAllPostcards, getPostcardPosition, setPostcardPosition } from "./firebase";
+import { getAllPostcards, getPostcardPosition, onNewPostcard, setPostcardPosition } from "./firebase";
+
+
+
 
 async function displayPostcards() {
+
+  await onNewPostcard()
+
   const postcardIds = await getAllPostcards();
 
   if (postcardIds) {

@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { query, set, ref, get, getDatabase } from "firebase/database";
+import { orderByChild, onChildAdded, query, set, ref, get, getDatabase } from "firebase/database";
 import { getAuth, signInAnonymously } from "firebase/auth";
 
 const firebaseConfig = {
@@ -59,4 +59,19 @@ export async function getPostcardPosition(postcardId) {
   } else {
       return null;
   }
+}
+
+export async function onNewPostcard() {
+  const db = getDatabase(app);
+  const postcardsRef = query(ref(db, "postcards/"), orderByChild('time'));
+
+
+  onChildAdded(postcardsRef, async (snapshot) => {
+    const postcard = snapshot.val();
+
+      if (new Date().getTime() - postcard.time < 200) { 
+        window.location.reload();
+      }
+  
+  });
 }
