@@ -43,13 +43,13 @@ export async function getAllPostcards() {
   } 
 }
 
-async function getPostcardTimes(postcardId) {
-  const postcardsTimeRef = ref(db, `postcards/${postcardId}/time`);
-  const snapshot = await get(postcardsTimeRef);
-  if (snapshot.exists()) {
-    return Object.keys(snapshot.val());  
-  } 
-}
+// async function getPostcardTimes(postcardId) {
+//   const postcardsTimeRef = ref(db, `postcards/${postcardId}/time`);
+//   const snapshot = await get(postcardsTimeRef);
+//   if (snapshot.exists()) {
+//     return Object.keys(snapshot.val());  
+//   } 
+// }
 
 export async function setPostcardPosition(postcardId, x, y) {
   const db = getDatabase(app);
