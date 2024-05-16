@@ -1,6 +1,10 @@
 import { initializeApp } from "firebase/app";
 import { orderByChild, onChildAdded, query, set, ref, get, getDatabase } from "firebase/database";
 import { getAuth, signInAnonymously } from "firebase/auth";
+import { getPostcardUrl } from "./firebase.storage.js";
+import { getRandomRotation, getRandomBetween } from "./utils";
+ 
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyDXQu4yijaT5E_B4rf2PA4ksngr6ylFHBk",
@@ -51,7 +55,7 @@ export async function getAllPostcards() {
 //   } 
 // }
 
-export async function setPostcardPosition(postcardId, x, y) {
+export async function setPostcardPosition(postcardId, x, y, time) {
   const db = getDatabase(app);
   const positionRef = ref(db, `postcard-wall/${postcardId}`);
 
@@ -75,12 +79,30 @@ export async function onNewPostcard() {
 
 
   onChildAdded(postcardsRef, async (snapshot) => {
-    const postcard = snapshot.val();
-
-      console.log("SHUUUUUUUUUUUUUUUUUUU")
-      if (new Date().getTime() - postcard.time < 200) { 
-        window.location.reload();
+    const postcard = await snapshot.val();
+    setTimeout(async ()=>{
+      const imageUrl = await getPostcardUrl(postcard.id)
+      console.log(imageUrl)
+  
+      let cardWidth = (3840 / 143.9) * 15.3 /2
+      let cardHeight = cardWidth * ( 10.16 /15.3 )
+  
+      let position =   {
+        x: getRandomBetween(0, window.innerWidth - cardWidth),
+        y: getRandomBetween(0, window.innerHeight - cardHeight)
       }
   
-  });
-}
+      const imgElement = document.createElement('img');
+      imgElement.src = imageUrl;
+      imgElement.style.position = 'absolute';
+      imgElement.style.width = cardWidth+"px";
+      imgElement.style.height = cardHeight+"px";
+      imgElement.style.left = `${position.x}px`;
+      imgElement.style.top = `${position.y}px`;
+      imgElement.style.transform = `rotate(${getRandomRotation()}deg)`;
+      imgElement.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.5)";
+      document.body.appendChild(imgElement);
+    },2000)
+    
+      })
+    }

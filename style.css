@@ -67,6 +67,7 @@ h1 {
 img {
   width: 273px;
   height: 168px;
+  animation: enterScreen .5s forwards;
 }
 
 button {
@@ -99,4 +100,14 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+@keyframes enterScreen {
+  from {
+    translate: 0 100vh 0 ;
+  }
+
+  to{    translate: 0 0 0 ;
+  }
+  
 }
