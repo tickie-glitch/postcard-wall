@@ -4,6 +4,8 @@ import { getRandomRotation, getRandomBetween } from "./utils";
 import { getAllPostcards, getPostcardPosition, onNewPostcard, setPostcardPosition } from "./firebase";
 
 
+let cardWidth = (3840 / 143.9) * 15.3
+let cardHeight = cardWidth * ( 10.16 /15.3 )
 
 
 async function displayPostcards() {
@@ -22,8 +24,8 @@ async function displayPostcards() {
         // If no position saved, generate and save one
         if (!position) {
           position = {
-            x: getRandomBetween(0, window.innerWidth - 170),
-            y: getRandomBetween(0, window.innerHeight - 105)
+            x: getRandomBetween(0, window.innerWidth - cardWidth),
+            y: getRandomBetween(0, window.innerHeight - cardHeight)
           };
           await setPostcardPosition(postcardId, position.x, position.y);
         }
@@ -31,8 +33,8 @@ async function displayPostcards() {
         const imgElement = document.createElement('img');
         imgElement.src = imageUrl;
         imgElement.style.position = 'absolute';
-        imgElement.style.width = "170px";
-        imgElement.style.height = "105px";
+        imgElement.style.width = cardWidth+"px";
+        imgElement.style.height = cardHeight+"px";
         imgElement.style.left = `${position.x}px`;
         imgElement.style.top = `${position.y}px`;
         imgElement.style.transform = `rotate(${getRandomRotation()}deg)`;

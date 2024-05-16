@@ -35,9 +35,17 @@ export async function getPostcardInfos(postcardId) {
 
 
 export async function getAllPostcards() {
-  const db = getDatabase(app);
+
   const postcardsRef = ref(db, "postcards/");
   const snapshot = await get(postcardsRef);
+  if (snapshot.exists()) {
+    return Object.keys(snapshot.val());  
+  } 
+}
+
+async function getPostcardTimes(postcardId) {
+  const postcardsTimeRef = ref(db, `postcards/${postcardId}/time`);
+  const snapshot = await get(postcardsTimeRef);
   if (snapshot.exists()) {
     return Object.keys(snapshot.val());  
   } 
@@ -46,7 +54,7 @@ export async function getAllPostcards() {
 export async function setPostcardPosition(postcardId, x, y) {
   const db = getDatabase(app);
   const positionRef = ref(db, `postcard-wall/${postcardId}`);
-  const time = Date.now();  // Get the current timestamp in milliseconds
+
   await set(positionRef, { x, y, time });
 }
 
@@ -69,6 +77,7 @@ export async function onNewPostcard() {
   onChildAdded(postcardsRef, async (snapshot) => {
     const postcard = snapshot.val();
 
+      console.log("SHUUUUUUUUUUUUUUUUUUU")
       if (new Date().getTime() - postcard.time < 200) { 
         window.location.reload();
       }
